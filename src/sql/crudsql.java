@@ -1,22 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package sql;
 
 import java.sql.Connection;
 import javax.swing.JOptionPane;
+import java.sql.ResultSet;
+import getset.variables;
+
 /**
  *
  * @author david
  */
-public class crudsql {
-    conexionsql con = new conexionsql();
+public class crudsql extends conexionsql{
+    
+    java.sql.Statement st;
+    ResultSet rs;
+    variables var = new variables();
     
     public void insertar(String nombre, String direccion, String tipo_actividad, String fecha_registro){
         try{
-            Connection conexion = con.conectar();
-            java.sql.Statement st = conexion.createStatement();
+            Connection conexion = conectar();
+            st = conexion.createStatement();
             String sql = "INSERT INTO productor(nombre,dirección,tipoactividad,fecharegistro) values('"+nombre+"','"+direccion+"','"+tipo_actividad+"','"+fecha_registro+"')";
             st.execute(sql);
             st.close();
@@ -26,4 +28,37 @@ public class crudsql {
             JOptionPane.showMessageDialog(null,"El registro no se guardo correctamente "+e, "Mensaje", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    public void mostrar(String productorid){
+        try{
+            Connection conexion = conectar();
+            st = conexion.createStatement();
+            String sql = "SELECT * FROM productor WHERE productorid='"+productorid+"';";
+            rs = st.executeQuery(sql);
+            if(rs.next()){
+                var.setProductorid(rs.getString("productorid"));
+                var.setNombre(rs.getString("nombre"));
+                var.setDirección(rs.getString("dirección"));
+                var.setTipoactividad(rs.getString("tipoactividad"));
+                var.setFecharegistro(rs.getString("fecharegistro"));
+            }else{
+                var.setProductorid("");
+                var.setNombre("");
+                var.setDirección("");
+                var.setTipoactividad("");
+                var.setFecharegistro("");
+                JOptionPane.showMessageDialog(null, "no se encontró registro","Sin registro",JOptionPane.INFORMATION_MESSAGE);
+            }
+            st.close();
+            conexion.close();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error en el sistema de busqueda","Error busqueda",JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
 }
+
+
+
+
+

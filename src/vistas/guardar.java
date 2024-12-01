@@ -40,6 +40,7 @@ public class guardar extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JButton();
+        btnsiguiente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,14 +77,17 @@ public class guardar extends javax.swing.JFrame {
             }
         });
 
+        btnsiguiente.setText("Siguiente");
+        btnsiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnsiguienteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnGuardar)
-                .addGap(155, 155, 155))
             .addGroup(layout.createSequentialGroup()
                 .addGap(92, 92, 92)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -98,6 +102,15 @@ public class guardar extends javax.swing.JFrame {
                     .addComponent(txtTipoDeActividad)
                     .addComponent(txtFechaDeRegistro))
                 .addContainerGap(84, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnGuardar)
+                        .addGap(155, 155, 155))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnsiguiente)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,7 +133,9 @@ public class guardar extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addGap(30, 30, 30)
                 .addComponent(btnGuardar)
-                .addGap(45, 45, 45))
+                .addGap(16, 16, 16)
+                .addComponent(btnsiguiente)
+                .addContainerGap())
         );
 
         pack();
@@ -141,6 +156,13 @@ public class guardar extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         objcrud.insertar(txtNombre.getText(),txtDireccion.getText(),txtTipoDeActividad.getText(),txtFechaDeRegistro.getText());
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnsiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsiguienteActionPerformed
+        mostrar objmostrar = new mostrar();
+        objmostrar.setVisible(true);
+        objmostrar.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnsiguienteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -179,6 +201,7 @@ public class guardar extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnsiguiente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
