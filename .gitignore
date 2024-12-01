@@ -1,1 +1,4 @@
 githubtoken.txt
+build/
+nbproject/private/
+
