@@ -56,6 +56,17 @@ public class crudsql extends conexionsql{
         }
     }
     
+    public void actualizar(String productorid, String nombre, String direccion, String tipo_actividad, String fecha_registro){
+        try{
+            Connection conexion = conectar();
+            st = conexion.createStatement();
+            String sql = "update productor set nombre='"+nombre+"',dirección='"+direccion+"',tipoactividad='"+tipo_actividad+"',fecharegistro='"+fecha_registro+"' where productorid='"+productorid+"';";
+            st.executeUpdate(sql);
+            JOptionPane.showMessageDialog(null, "El registro se actualizó","Exito",JOptionPane.INFORMATION_MESSAGE);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error al actualizar "+e,"Error",JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
 
 

@@ -2,3 +2,4 @@ githubtoken.txt
 build/
 nbproject/private/
 
+/dist/

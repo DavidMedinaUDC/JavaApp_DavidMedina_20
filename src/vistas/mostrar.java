@@ -18,6 +18,7 @@ public class mostrar extends javax.swing.JFrame {
      */
     public mostrar() {
         initComponents();
+        txtid.setEditable(false);
     }
 
     /**
@@ -43,6 +44,7 @@ public class mostrar extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         btnregresar = new javax.swing.JButton();
+        btnactualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,6 +69,12 @@ public class mostrar extends javax.swing.JFrame {
             }
         });
 
+        txttipoactividad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txttipoactividadActionPerformed(evt);
+            }
+        });
+
         jLabel2.setText("ID");
 
         jLabel3.setText("Dirección");
@@ -84,6 +92,13 @@ public class mostrar extends javax.swing.JFrame {
             }
         });
 
+        btnactualizar.setText("Actualizar");
+        btnactualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnactualizarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -91,28 +106,31 @@ public class mostrar extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel6))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtfecharegistro)
-                            .addComponent(txtid)
-                            .addComponent(txtproductorid)
-                            .addComponent(txtnombre, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
-                            .addComponent(txtdireccion, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
-                            .addComponent(txttipoactividad, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnbuscar))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnregresar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnregresar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnactualizar)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel6))
+                                .addGap(12, 12, 12)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtfecharegistro)
+                                    .addComponent(txtid)
+                                    .addComponent(txtproductorid)
+                                    .addComponent(txtnombre, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                                    .addComponent(txtdireccion, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                                    .addComponent(txttipoactividad, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnbuscar)))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,7 +161,9 @@ public class mostrar extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtfecharegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btnactualizar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnregresar)
                 .addContainerGap())
         );
@@ -175,6 +195,27 @@ variables var = new variables();
         txttipoactividad.setText(var.getTipoactividad());
         txtfecharegistro.setText(var.getFecharegistro());
     }//GEN-LAST:event_btnbuscarActionPerformed
+
+    private void btnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarActionPerformed
+        crudsql objcrud = new crudsql();
+        variables objvar = new variables();
+        
+        objvar.setProductorid(txtid.getText());
+        objvar.setNombre(txtnombre.getText());
+        objvar.setDirección(txtdireccion.getText());
+        objvar.setTipoactividad(txttipoactividad.getText());
+        objvar.setFecharegistro(txtfecharegistro.getText());
+        objcrud.actualizar(objvar.getProductorid(), objvar.getNombre(), objvar.getDirección(), objvar.getTipoactividad(), objvar.getFecharegistro());
+        txtid.setText("");
+        txtnombre.setText("");
+        txtdireccion.setText("");
+        txttipoactividad.setText("");
+        txtfecharegistro.setText("");
+    }//GEN-LAST:event_btnactualizarActionPerformed
+
+    private void txttipoactividadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttipoactividadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txttipoactividadActionPerformed
 
     /**
      * @param args the command line arguments
@@ -212,6 +253,7 @@ variables var = new variables();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnactualizar;
     private javax.swing.JButton btnbuscar;
     private javax.swing.JButton btnregresar;
     private javax.swing.JLabel jLabel1;
