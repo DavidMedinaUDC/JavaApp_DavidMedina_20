@@ -14,7 +14,7 @@ public class arranque {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        guardar abrir=new guardar();
+        MainView abrir=new MainView();
         abrir.setVisible(true);
         abrir.setLocationRelativeTo(null);
     }

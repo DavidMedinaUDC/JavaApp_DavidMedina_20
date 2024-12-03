@@ -29,11 +29,11 @@ public class crudsql extends conexionsql{
         }
     }
     
-    public void mostrar(String productorid){
+    public void mostrar(String columna, String value){
         try{
             Connection conexion = conectar();
             st = conexion.createStatement();
-            String sql = "SELECT * FROM productor WHERE productorid='"+productorid+"';";
+            String sql = "SELECT * FROM productor WHERE "+columna+" = '"+value+"';";
             rs = st.executeQuery(sql);
             if(rs.next()){
                 var.setProductorid(rs.getString("productorid"));
@@ -52,7 +52,7 @@ public class crudsql extends conexionsql{
             st.close();
             conexion.close();
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Error en el sistema de busqueda","Error busqueda",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error en el sistema de busqueda o en la introducción de datos por parte del usuario","Error busqueda",JOptionPane.ERROR_MESSAGE);
         }
     }
     
