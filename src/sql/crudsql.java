@@ -62,9 +62,24 @@ public class crudsql extends conexionsql{
             st = conexion.createStatement();
             String sql = "update productor set nombre='"+nombre+"',dirección='"+direccion+"',tipoactividad='"+tipo_actividad+"',fecharegistro='"+fecha_registro+"' where productorid='"+productorid+"';";
             st.executeUpdate(sql);
+            st.close();
+            conexion.close();
             JOptionPane.showMessageDialog(null, "El registro se actualizó","Exito",JOptionPane.INFORMATION_MESSAGE);
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Error al actualizar "+e,"Error",JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public void eliminar(String productorid){
+        try{
+            Connection conexion = conectar();
+            st = conexion.createStatement();
+            String sql = "DELETE FROM productor WHERE productorid = '"+productorid+"'; ";
+            st.executeUpdate(sql);
+            st.close();
+            JOptionPane.showMessageDialog(null, "Registro eliminado correctamente","Eliminado", JOptionPane.INFORMATION_MESSAGE);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error al eliminar registro"+ e,"Error",JOptionPane.ERROR_MESSAGE);
         }
     }
 }

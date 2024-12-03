@@ -45,6 +45,7 @@ public class mostrar extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         btnregresar = new javax.swing.JButton();
         btnactualizar = new javax.swing.JButton();
+        btneliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -99,6 +100,13 @@ public class mostrar extends javax.swing.JFrame {
             }
         });
 
+        btneliminar.setText("Eliminar");
+        btneliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btneliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -111,7 +119,10 @@ public class mostrar extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnactualizar)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btneliminar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnactualizar))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
@@ -162,7 +173,9 @@ public class mostrar extends javax.swing.JFrame {
                     .addComponent(txtfecharegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(18, 18, 18)
-                .addComponent(btnactualizar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnactualizar)
+                    .addComponent(btneliminar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnregresar)
                 .addContainerGap())
@@ -217,6 +230,21 @@ variables var = new variables();
         // TODO add your handling code here:
     }//GEN-LAST:event_txttipoactividadActionPerformed
 
+    private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
+        crudsql objcrud = new crudsql();
+        variables objvar = new variables();
+        
+        objvar.setProductorid(txtid.getText());
+        
+        objcrud.eliminar(objvar.getProductorid());
+        txtid.setText("");
+        txtnombre.setText("");
+        txtdireccion.setText("");
+        txttipoactividad.setText("");
+        txtfecharegistro.setText("");
+        
+    }//GEN-LAST:event_btneliminarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -255,6 +283,7 @@ variables var = new variables();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnactualizar;
     private javax.swing.JButton btnbuscar;
+    private javax.swing.JButton btneliminar;
     private javax.swing.JButton btnregresar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
