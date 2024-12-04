@@ -10,8 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
 
-import vistas.consulta_avanzada;
-
 /**
  *
  * @author david
@@ -21,7 +19,6 @@ public class consulta_ordenar extends javax.swing.JFrame {
     ResultSet rst = null;
     Connection connDbc = null;
     conexionsql dbc = new conexionsql();
-    consulta_avanzada columna = new consulta_avanzada();
     
     public consulta_ordenar() {
         initComponents();
