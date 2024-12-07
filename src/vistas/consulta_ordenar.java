@@ -25,10 +25,10 @@ public class consulta_ordenar extends javax.swing.JFrame {
         connDbc = dbc.conectar();
     }
 
-    public void populateJTable(String columna){
+    public void populateJTable(String columna, String orden){
     //public void populateJTable(){    
         try{
-            String sqlSelectDataFromDatabase = "SELECT * FROM productor ORDER BY "+columna+" ASC;";
+            String sqlSelectDataFromDatabase = "SELECT * FROM productor ORDER BY "+columna+" "+orden+" ;";
             //String sqlSelectDataFromDatabase = "SELECT * FROM productor ORDER BY fecharegistro ASC;";
             pst = connDbc.prepareStatement(sqlSelectDataFromDatabase);
             rst = pst.executeQuery();

@@ -21,6 +21,7 @@ public class consulta_avanzada extends javax.swing.JFrame {
     Connection connDbc = null;
     conexionsql dbc = new conexionsql();
     public String cbColumna;
+    public String cbOrden;
     
     
     public consulta_avanzada() {
@@ -96,7 +97,7 @@ public class consulta_avanzada extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Sortear por:");
+        jLabel1.setText("Ordenar por:");
 
         ComboBoxColumna.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "productorid", "nombre", "dirección", "tipoactividad", "fecharegistro" }));
         ComboBoxColumna.addActionListener(new java.awt.event.ActionListener() {
@@ -183,14 +184,17 @@ public class consulta_avanzada extends javax.swing.JFrame {
     private void btnOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenarActionPerformed
         
         this.cbColumna = ComboBoxColumna.getSelectedItem().toString();
-        System.out.println("Combo Box Action Performed: " + cbColumna);
+        System.out.println("Columna: " + cbColumna);
+        
+        this.cbOrden = ComboBoxOrden.getSelectedItem().toString();
+        System.out.println("Area: " + cbOrden);
         
         consulta_ordenar objordenar = new consulta_ordenar();
         objordenar.setVisible(true);
         objordenar.setLocationRelativeTo(null);
         this.setVisible(false);
         
-        objordenar.populateJTable(cbColumna);
+        objordenar.populateJTable(cbColumna, cbOrden);
     }//GEN-LAST:event_btnOrdenarActionPerformed
 
      
