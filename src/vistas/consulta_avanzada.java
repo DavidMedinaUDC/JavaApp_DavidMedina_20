@@ -8,6 +8,7 @@ import java.sql.Connection;
 import sql.conexionsql;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import vistas.consulta_ordenar;
@@ -20,9 +21,9 @@ public class consulta_avanzada extends javax.swing.JFrame {
     ResultSet rst = null;
     Connection connDbc = null;
     conexionsql dbc = new conexionsql();
-    public String cbColumna;
-    public String cbOrden;
-    
+    //public String cbColumna;
+    //public String cbOrden;
+        
     
     public consulta_avanzada() {
   
@@ -77,6 +78,13 @@ public class consulta_avanzada extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         ComboBoxOrden = new javax.swing.JComboBox<>();
         btnOrdenar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        ComboBoxOperador = new javax.swing.JComboBox<>();
+        ButtonBuscar = new javax.swing.JButton();
+        TextFieldParametro = new javax.swing.JTextField();
+        SpinnerParametroNumero = new javax.swing.JSpinner();
+        ComboBoxOperadorString = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,41 +130,110 @@ public class consulta_avanzada extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setText("Donde:");
+
+        jLabel4.setText("o");
+
+        ComboBoxOperador.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona", "=", "!=", ">", "<", ">=", "<=", " " }));
+        ComboBoxOperador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboBoxOperadorActionPerformed(evt);
+            }
+        });
+
+        ButtonBuscar.setText("Buscar");
+        ButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonBuscarActionPerformed(evt);
+            }
+        });
+
+        TextFieldParametro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextFieldParametroActionPerformed(evt);
+            }
+        });
+
+        ComboBoxOperadorString.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona", "LIKE", "IS NULL", "IS NOT NULL" }));
+        ComboBoxOperadorString.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboBoxOperadorStringActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 738, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnregresar, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1)
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnregresar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(8, 8, 8)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(ComboBoxColumna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(ComboBoxOperador, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(31, 31, 31)
+                                        .addComponent(jLabel2))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(ComboBoxOperadorString, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(SpinnerParametroNumero)
+                                    .addComponent(TextFieldParametro)
+                                    .addComponent(ComboBoxOrden, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ComboBoxOrden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnOrdenar)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(ButtonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnOrdenar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(ComboBoxColumna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(ComboBoxOrden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnOrdenar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(ComboBoxOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(SpinnerParametroNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(ComboBoxOperadorString, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(TextFieldParametro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(ComboBoxColumna, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel3))
+                        .addComponent(ComboBoxOrden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnOrdenar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ButtonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnregresar)
                 .addContainerGap())
@@ -183,19 +260,93 @@ public class consulta_avanzada extends javax.swing.JFrame {
 
     private void btnOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenarActionPerformed
         
-        this.cbColumna = ComboBoxColumna.getSelectedItem().toString();
+        String cbColumna = ComboBoxColumna.getSelectedItem().toString();
         System.out.println("Columna: " + cbColumna);
         
-        this.cbOrden = ComboBoxOrden.getSelectedItem().toString();
-        System.out.println("Area: " + cbOrden);
+        String cbOrden = ComboBoxOrden.getSelectedItem().toString();
+        System.out.println("Orden: " + cbOrden);
         
         consulta_ordenar objordenar = new consulta_ordenar();
         objordenar.setVisible(true);
         objordenar.setLocationRelativeTo(null);
         this.setVisible(false);
         
-        objordenar.populateJTable(cbColumna, cbOrden);
+        objordenar.populateJTableOrdenar(cbColumna, cbOrden);
     }//GEN-LAST:event_btnOrdenarActionPerformed
+
+    private void ComboBoxOperadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxOperadorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComboBoxOperadorActionPerformed
+
+    private void TextFieldParametroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFieldParametroActionPerformed
+        
+    }//GEN-LAST:event_TextFieldParametroActionPerformed
+
+    private void ButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBuscarActionPerformed
+        String cbColumna = ComboBoxColumna.getSelectedItem().toString();
+        System.out.println("Columna: " + cbColumna);
+        
+        String cbOperadorNUM = ComboBoxOperador.getSelectedItem().toString();
+        System.out.println("Operador numerico: " + cbOperadorNUM);
+        
+        String cbOperadorString = ComboBoxOperadorString.getSelectedItem().toString();
+        System.out.println("Operador de texto: " + cbOperadorString);
+        
+        Integer tfParametroINT = (Integer) SpinnerParametroNumero.getValue();
+        String tfParametroNUM = tfParametroINT.toString();
+        System.out.println("Parametro numerico: " + tfParametroNUM);
+        
+        String tfParametroString = TextFieldParametro.getText();
+        System.out.println("Parametro en texto: " + tfParametroString);
+        
+        String tfParametro = null;
+        String cbOperador = null;
+        
+        
+        if(!tfParametroString.isEmpty() && tfParametroINT <= 0){
+            tfParametro = "'" + tfParametroString + "'";
+            System.out.println("Parametro Final: " + tfParametro);
+        }else if(tfParametroINT > 0 && tfParametroString.isEmpty()){
+            tfParametro = tfParametroNUM;
+            System.out.println("Parametro Final: " + tfParametro);
+        }else if(tfParametroINT <= 0 && tfParametroString.isEmpty()){
+            
+            if("IS NULL".equals(ComboBoxOperadorString.getSelectedItem().toString())){
+                tfParametro = "";
+                System.out.println("Parametro Final: " + tfParametro);
+            }else if("IS NOT NULL".equals(ComboBoxOperadorString.getSelectedItem().toString())){
+                tfParametro = "";
+                System.out.println("Parametro Final: " + tfParametro);
+            }
+            
+        }else if(!tfParametroString.isEmpty() && tfParametroINT > 0){
+            JOptionPane.showMessageDialog(null, "No puedes usar los dos parametros a la vez", "Mensaje", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        if(!"Selecciona".equals(ComboBoxOperador.getSelectedItem().toString()) && "Selecciona".equals(ComboBoxOperadorString.getSelectedItem().toString())){
+            cbOperador = cbOperadorNUM;
+            System.out.println("Operador Final: " + cbOperadorNUM);
+            System.out.println("Caso 1");
+        }else if("Selecciona".equals(ComboBoxOperador.getSelectedItem().toString()) && !"Selecciona".equals(ComboBoxOperadorString.getSelectedItem().toString())){
+            cbOperador = cbOperadorString;
+            System.out.println("Operador Final: " + cbOperadorString);
+            System.out.println("Caso 2");
+        }else if(!"Selecciona".equals(ComboBoxOperador.getSelectedItem().toString()) && !"Selecciona".equals(ComboBoxOperadorString.getSelectedItem().toString())){
+            System.out.println("Caso 3");
+            JOptionPane.showMessageDialog(null, "No puedes usar los dos operadores a la vez", "Mensaje", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        consulta_ordenar objordenar = new consulta_ordenar();
+        objordenar.setVisible(true);
+        objordenar.setLocationRelativeTo(null);
+        this.setVisible(false);
+        
+        objordenar.populateJTableBuscar(cbColumna, cbOperador, tfParametro);
+    }//GEN-LAST:event_ButtonBuscarActionPerformed
+
+    private void ComboBoxOperadorStringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxOperadorStringActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComboBoxOperadorStringActionPerformed
 
      
     /**
@@ -237,13 +388,20 @@ public class consulta_avanzada extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonBuscar;
     public javax.swing.JComboBox<String> ComboBoxColumna;
+    private javax.swing.JComboBox<String> ComboBoxOperador;
+    private javax.swing.JComboBox<String> ComboBoxOperadorString;
     private javax.swing.JComboBox<String> ComboBoxOrden;
+    private javax.swing.JSpinner SpinnerParametroNumero;
+    private javax.swing.JTextField TextFieldParametro;
     public javax.swing.JButton btnOrdenar;
     private javax.swing.JButton btnregresar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tabla_productores;
     // End of variables declaration//GEN-END:variables

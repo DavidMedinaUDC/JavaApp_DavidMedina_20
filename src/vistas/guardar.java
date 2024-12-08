@@ -154,7 +154,36 @@ public class guardar extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTipoDeActividadActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        objcrud.insertar(txtNombre.getText(),txtDireccion.getText(),txtTipoDeActividad.getText(),txtFechaDeRegistro.getText());
+        String nombre = null;
+        String direccion = null;
+        String tipodeactividad = null;
+        String fechaderegistro = null;
+        
+        if(txtNombre.getText().isEmpty()){
+            nombre = "NULL";
+        }else{
+            nombre = "'" + txtNombre.getText() + "'";
+        }
+        
+        if(txtDireccion.getText().isEmpty()){
+            direccion = "NULL";
+        }else{
+            direccion = "'" + txtDireccion.getText() + "'";
+        }
+        
+        if(txtTipoDeActividad.getText().isEmpty()){
+            tipodeactividad = "NULL";
+        }else{
+            tipodeactividad = "'" + txtTipoDeActividad.getText() + "'";
+        }
+        
+        if(txtFechaDeRegistro.getText().isEmpty()){
+            fechaderegistro = "NULL";
+        }else{
+            fechaderegistro = "'" + txtFechaDeRegistro.getText() + "'";
+        }
+        
+        objcrud.insertar(nombre,direccion,tipodeactividad,fechaderegistro);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnregresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregresarActionPerformed

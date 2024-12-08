@@ -19,7 +19,8 @@ public class crudsql extends conexionsql{
         try{
             Connection conexion = conectar();
             st = conexion.createStatement();
-            String sql = "INSERT INTO productor(nombre,dirección,tipoactividad,fecharegistro) values('"+nombre+"','"+direccion+"','"+tipo_actividad+"','"+fecha_registro+"')";
+            String sql = "INSERT INTO productor(nombre,dirección,tipoactividad,fecharegistro) values("+nombre+","+direccion+","+tipo_actividad+","+fecha_registro+");";
+            System.out.println(sql);
             st.execute(sql);
             st.close();
             conexion.close();

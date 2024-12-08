@@ -25,11 +25,9 @@ public class consulta_ordenar extends javax.swing.JFrame {
         connDbc = dbc.conectar();
     }
 
-    public void populateJTable(String columna, String orden){
-    //public void populateJTable(){    
-        try{
+    public void populateJTableOrdenar(String columna, String orden){
+            try{
             String sqlSelectDataFromDatabase = "SELECT * FROM productor ORDER BY "+columna+" "+orden+" ;";
-            //String sqlSelectDataFromDatabase = "SELECT * FROM productor ORDER BY fecharegistro ASC;";
             pst = connDbc.prepareStatement(sqlSelectDataFromDatabase);
             rst = pst.executeQuery();
             
@@ -48,6 +46,35 @@ public class consulta_ordenar extends javax.swing.JFrame {
         }catch(Exception e){
             
         }
+        
+    }
+    
+    public void populateJTableBuscar(String columna, String operador, String parametro){
+        try{
+            String sqlSelectDataFromDatabase = "SELECT * FROM productor WHERE "+columna+" "+operador+" "+parametro+";";
+            System.out.println("IntruccionSQL: " + sqlSelectDataFromDatabase);
+            pst = connDbc.prepareStatement(sqlSelectDataFromDatabase);
+            rst = pst.executeQuery();
+            
+            
+            
+            while(rst.next()){
+                String id = rst.getString("productorid");
+                String nombre = rst.getString("nombre");
+                String dirección = rst.getString("dirección");
+                String tipoactividad = rst.getString("tipoactividad");
+                String fecharegistro = rst.getString("fecharegistro");
+                
+                DefaultTableModel dftable = (DefaultTableModel) tabla_productores.getModel();
+                Object[] obj = {id,nombre,dirección,tipoactividad,fecharegistro};
+                dftable.addRow(obj);
+            }
+        }catch(Exception e){
+            
+        }
+    }
+    
+    public void populateWhile(){
         
     }
     
