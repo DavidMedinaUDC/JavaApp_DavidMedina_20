@@ -31,6 +31,7 @@ public class MainView extends javax.swing.JFrame {
         btnmodificar = new javax.swing.JButton();
         btnConsultaAvanzada = new javax.swing.JButton();
         btnborrar = new javax.swing.JButton();
+        btnConsultaMultitabla = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,25 +70,33 @@ public class MainView extends javax.swing.JFrame {
             }
         });
 
+        btnConsultaMultitabla.setText("Consulta Multitabla");
+        btnConsultaMultitabla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultaMultitablaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(90, Short.MAX_VALUE)
+                .addContainerGap(89, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnConsultaMultitabla)
                     .addComponent(btnConsultaAvanzada)
                     .addComponent(btnmodificar)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(btnagregar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnmostrartodo, javax.swing.GroupLayout.Alignment.LEADING))
                     .addComponent(btnborrar))
-                .addGap(55, 55, 55))
+                .addGap(56, 56, 56))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(39, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(34, 34, 34)
                 .addComponent(btnagregar)
                 .addGap(18, 18, 18)
                 .addComponent(btnmostrartodo)
@@ -97,7 +106,9 @@ public class MainView extends javax.swing.JFrame {
                 .addComponent(btnborrar)
                 .addGap(18, 18, 18)
                 .addComponent(btnConsultaAvanzada)
-                .addGap(28, 28, 28))
+                .addGap(18, 18, 18)
+                .addComponent(btnConsultaMultitabla)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
@@ -138,6 +149,13 @@ public class MainView extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnborrarActionPerformed
 
+    private void btnConsultaMultitablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultaMultitablaActionPerformed
+        consulta_multi objmulti = new consulta_multi();
+        objmulti.setVisible(true);
+        objmulti.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnConsultaMultitablaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -175,6 +193,7 @@ public class MainView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConsultaAvanzada;
+    private javax.swing.JButton btnConsultaMultitabla;
     private javax.swing.JButton btnagregar;
     private javax.swing.JButton btnborrar;
     private javax.swing.JButton btnmodificar;
