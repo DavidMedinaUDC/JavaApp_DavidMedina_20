@@ -20,6 +20,7 @@ public class consulta_multi extends javax.swing.JFrame {
     ResultSet rst = null;
     Connection connDbc = null;
     conexionsql dbc = new conexionsql();
+    String sqlSelectDataFromDatabase = null;
     /**
      * Creates new form consulta_multi
      */
@@ -49,9 +50,18 @@ public class consulta_multi extends javax.swing.JFrame {
                 return;
             }
             
+            String cbJoin = ComboBoxJoin.getSelectedItem().toString();
+            System.out.println("Join: " + cbJoin);
+
             String columns = String.join(", ", selectedColumns);
-            String sqlSelectDataFromDatabase = "Select " + columns + " FROM productor INNER JOIN residuo ON productor.productorid = residuo.productorid;";
+            
+            if(!"CROSS".equals(cbJoin)){
+                sqlSelectDataFromDatabase = "Select " + columns + " FROM productor " + cbJoin + " JOIN residuo ON productor.productorid = residuo.productorid;";
            
+            }else{
+                sqlSelectDataFromDatabase = "Select " + columns + " FROM productor " + cbJoin + " JOIN residuo;";
+            }
+                        
             System.out.println(sqlSelectDataFromDatabase);
             
             pst = connDbc.prepareStatement(sqlSelectDataFromDatabase);
@@ -107,6 +117,8 @@ public class consulta_multi extends javax.swing.JFrame {
         CheckBoxResiduoID = new javax.swing.JCheckBox();
         CheckBoxPorductorID = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
+        ComboBoxJoin = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -164,6 +176,15 @@ public class consulta_multi extends javax.swing.JFrame {
             }
         });
 
+        ComboBoxJoin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "INNER", "LEFT", "RIGHT", "FULL", "CROSS" }));
+        ComboBoxJoin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboBoxJoinActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Elige el tipo de JOIN:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -192,17 +213,22 @@ public class consulta_multi extends javax.swing.JFrame {
                                         .addGap(27, 27, 27)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addComponent(CheckBoxComposicionQuimica, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
-                                                .addGap(153, 153, 153))
-                                            .addComponent(CheckBoxDireccion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                                .addComponent(CheckBoxComposicionQuimica, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(CheckBoxDireccion, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                                                .addGap(86, 86, 86)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(ComboBoxJoin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel1))
+                                        .addGap(43, 43, 43))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(CheckBoxTipoDeActividad)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(CheckBoxFechaDeRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(CheckBoxFechaDeGeneracion)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(23, 23, 23)))
                 .addContainerGap())
@@ -215,14 +241,12 @@ public class consulta_multi extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addComponent(CheckBoxComposicionQuimica))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(CheckBoxNombre)
-                                    .addComponent(CheckBoxDireccion))
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(CheckBoxCodigoUnico))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(CheckBoxComposicionQuimica)
+                                    .addComponent(ComboBoxJoin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(CheckBoxPorductorID)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -236,9 +260,15 @@ public class consulta_multi extends javax.swing.JFrame {
                         .addComponent(CheckBoxFechaDeGeneracion))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(27, 27, 27)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(CheckBoxNombre)
+                            .addComponent(CheckBoxDireccion))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(CheckBoxCodigoUnico)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRegresar)
                 .addContainerGap())
@@ -259,12 +289,18 @@ public class consulta_multi extends javax.swing.JFrame {
     }//GEN-LAST:event_CheckBoxNombreActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
         fetchData();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void CheckBoxComposicionQuimicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBoxComposicionQuimicaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CheckBoxComposicionQuimicaActionPerformed
+
+    private void ComboBoxJoinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxJoinActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComboBoxJoinActionPerformed
 
     /**
      * @param args the command line arguments
@@ -312,8 +348,10 @@ public class consulta_multi extends javax.swing.JFrame {
     private javax.swing.JCheckBox CheckBoxPorductorID;
     private javax.swing.JCheckBox CheckBoxResiduoID;
     private javax.swing.JCheckBox CheckBoxTipoDeActividad;
+    private javax.swing.JComboBox<String> ComboBoxJoin;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
