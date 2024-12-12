@@ -9,9 +9,7 @@ import sql.conexionsql;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-
-import vistas.consulta_ordenar;
+import javax.swing.table.DefaultTableModel;;
 /**
  *
  * @author david
@@ -21,23 +19,31 @@ public class consulta_avanzada extends javax.swing.JFrame {
     ResultSet rst = null;
     Connection connDbc = null;
     conexionsql dbc = new conexionsql();
-    //public String cbColumna;
-    //public String cbOrden;
-        
+    String cbColumna = null;
+    String cbOrden = null;
+    String cbOperadorNUM = null;
+    String cbOperadorString = null;
+    Integer tfParametroINT = null;
+    String tfParametroString = null;
+    String tfParametro = null;
+    String cbOperador = null;
     
     public consulta_avanzada() {
   
         initComponents();
-        connDbc = dbc.conectar();
-        populateJTable();
-        
         
     }
       
-    public void populateJTable(){
+    public void populateJTableOrdenar(String columna, String orden){
         
-        try{
-            String sqlSelectDataFromDatabase = "SELECT * FROM productor;";
+            connDbc = dbc.conectar();    
+        
+            try{
+                
+            DefaultTableModel dftable = (DefaultTableModel) tabla_productores.getModel();
+            dftable.setRowCount(0);
+            
+            String sqlSelectDataFromDatabase = "SELECT * FROM productor ORDER BY "+columna+" "+orden+" ;";
             pst = connDbc.prepareStatement(sqlSelectDataFromDatabase);
             rst = pst.executeQuery();
             
@@ -48,15 +54,46 @@ public class consulta_avanzada extends javax.swing.JFrame {
                 String tipoactividad = rst.getString("tipoactividad");
                 String fecharegistro = rst.getString("fecharegistro");
                         
-                DefaultTableModel dftable = (DefaultTableModel) tabla_productores.getModel();
                 Object[] obj = {id,nombre,dirección,tipoactividad,fecharegistro};
                 dftable.addRow(obj);
             }
+            
+            rst.close();
+            pst.close();
+            connDbc.close();
             
         }catch(Exception e){
             
         }
         
+    }
+
+    public void populateJTableBuscar(String columna, String operador, String parametro){
+        
+        connDbc = dbc.conectar();    
+
+        try{
+            DefaultTableModel dftable = (DefaultTableModel) tabla_productores.getModel();
+            dftable.setRowCount(0);
+            
+            String sqlSelectDataFromDatabase = "SELECT * FROM productor WHERE "+columna+" "+operador+" "+parametro+";";
+            System.out.println("IntruccionSQL: " + sqlSelectDataFromDatabase);
+            pst = connDbc.prepareStatement(sqlSelectDataFromDatabase);
+            rst = pst.executeQuery();
+                        
+            while(rst.next()){
+                String id = rst.getString("productorid");
+                String nombre = rst.getString("nombre");
+                String dirección = rst.getString("dirección");
+                String tipoactividad = rst.getString("tipoactividad");
+                String fecharegistro = rst.getString("fecharegistro");
+                
+                Object[] obj = {id,nombre,dirección,tipoactividad,fecharegistro};
+                dftable.addRow(obj);
+            }
+        }catch(Exception e){
+            
+        }
     }
 
     
@@ -154,7 +191,7 @@ public class consulta_avanzada extends javax.swing.JFrame {
             }
         });
 
-        ComboBoxOperadorString.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona", "LIKE", "IS NULL", "IS NOT NULL" }));
+        ComboBoxOperadorString.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona", "Empieza por", "Termina por", "Contiene", "IS NULL", "IS NOT NULL" }));
         ComboBoxOperadorString.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ComboBoxOperadorStringActionPerformed(evt);
@@ -259,19 +296,14 @@ public class consulta_avanzada extends javax.swing.JFrame {
     }//GEN-LAST:event_ComboBoxOrdenActionPerformed
 
     private void btnOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenarActionPerformed
-        
-        String cbColumna = ComboBoxColumna.getSelectedItem().toString();
+       
+        cbColumna = ComboBoxColumna.getSelectedItem().toString();
         System.out.println("Columna: " + cbColumna);
         
-        String cbOrden = ComboBoxOrden.getSelectedItem().toString();
+        cbOrden = ComboBoxOrden.getSelectedItem().toString();
         System.out.println("Orden: " + cbOrden);
         
-        consulta_ordenar objordenar = new consulta_ordenar();
-        objordenar.setVisible(true);
-        objordenar.setLocationRelativeTo(null);
-        this.setVisible(false);
-        
-        objordenar.populateJTableOrdenar(cbColumna, cbOrden);
+        populateJTableOrdenar(cbColumna, cbOrden);
     }//GEN-LAST:event_btnOrdenarActionPerformed
 
     private void ComboBoxOperadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxOperadorActionPerformed
@@ -283,27 +315,35 @@ public class consulta_avanzada extends javax.swing.JFrame {
     }//GEN-LAST:event_TextFieldParametroActionPerformed
 
     private void ButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBuscarActionPerformed
-        String cbColumna = ComboBoxColumna.getSelectedItem().toString();
+        cbColumna = ComboBoxColumna.getSelectedItem().toString();
         System.out.println("Columna: " + cbColumna);
         
-        String cbOperadorNUM = ComboBoxOperador.getSelectedItem().toString();
+        cbOperadorNUM = ComboBoxOperador.getSelectedItem().toString();
         System.out.println("Operador numerico: " + cbOperadorNUM);
         
-        String cbOperadorString = ComboBoxOperadorString.getSelectedItem().toString();
+        cbOperadorString = ComboBoxOperadorString.getSelectedItem().toString();
         System.out.println("Operador de texto: " + cbOperadorString);
         
-        Integer tfParametroINT = (Integer) SpinnerParametroNumero.getValue();
+        tfParametroINT = (Integer) SpinnerParametroNumero.getValue();
         String tfParametroNUM = tfParametroINT.toString();
         System.out.println("Parametro numerico: " + tfParametroNUM);
         
-        String tfParametroString = TextFieldParametro.getText();
+        tfParametroString = TextFieldParametro.getText();
         System.out.println("Parametro en texto: " + tfParametroString);
         
-        String tfParametro = null;
-        String cbOperador = null;
-        
-        
         if(!tfParametroString.isEmpty() && tfParametroINT <= 0){
+            
+            if("Empieza por".equals(ComboBoxOperadorString.getSelectedItem().toString())){
+                tfParametroString = tfParametroString + "%";
+                System.out.println("Parametro Final: " + tfParametroString);
+            }else if("Termina por".equals(ComboBoxOperadorString.getSelectedItem().toString())){
+                tfParametroString = "%" + tfParametroString;
+                System.out.println("Parametro Final: " + tfParametroString);
+            }else if("Contiene".equals(ComboBoxOperadorString.getSelectedItem().toString())){
+                tfParametroString = "%" + tfParametroString + "%";
+                System.out.println("Parametro Final: " + tfParametroString);
+            }
+            
             tfParametro = "'" + tfParametroString + "'";
             System.out.println("Parametro Final: " + tfParametro);
         }else if(tfParametroINT > 0 && tfParametroString.isEmpty()){
@@ -328,7 +368,7 @@ public class consulta_avanzada extends javax.swing.JFrame {
             System.out.println("Operador Final: " + cbOperadorNUM);
             System.out.println("Caso 1");
         }else if("Selecciona".equals(ComboBoxOperador.getSelectedItem().toString()) && !"Selecciona".equals(ComboBoxOperadorString.getSelectedItem().toString())){
-            cbOperador = cbOperadorString;
+            cbOperador = "LIKE";
             System.out.println("Operador Final: " + cbOperadorString);
             System.out.println("Caso 2");
         }else if(!"Selecciona".equals(ComboBoxOperador.getSelectedItem().toString()) && !"Selecciona".equals(ComboBoxOperadorString.getSelectedItem().toString())){
@@ -336,12 +376,7 @@ public class consulta_avanzada extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No puedes usar los dos operadores a la vez", "Mensaje", JOptionPane.ERROR_MESSAGE);
         }
         
-        consulta_ordenar objordenar = new consulta_ordenar();
-        objordenar.setVisible(true);
-        objordenar.setLocationRelativeTo(null);
-        this.setVisible(false);
-        
-        objordenar.populateJTableBuscar(cbColumna, cbOperador, tfParametro);
+        populateJTableBuscar(cbColumna, cbOperador, tfParametro);
     }//GEN-LAST:event_ButtonBuscarActionPerformed
 
     private void ComboBoxOperadorStringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxOperadorStringActionPerformed
