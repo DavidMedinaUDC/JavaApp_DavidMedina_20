@@ -368,9 +368,19 @@ public class consulta_avanzada extends javax.swing.JFrame {
             System.out.println("Operador Final: " + cbOperadorNUM);
             System.out.println("Caso 1");
         }else if("Selecciona".equals(ComboBoxOperador.getSelectedItem().toString()) && !"Selecciona".equals(ComboBoxOperadorString.getSelectedItem().toString())){
-            cbOperador = "LIKE";
-            System.out.println("Operador Final: " + cbOperadorString);
-            System.out.println("Caso 2");
+            
+            if("Empieza por".equals(ComboBoxOperadorString.getSelectedItem().toString()) || 
+                    "Termina por".equals(ComboBoxOperadorString.getSelectedItem().toString()) || 
+                    "Contiene".equals(ComboBoxOperadorString.getSelectedItem().toString())){
+                cbOperador = "LIKE";
+                System.out.println("Operador Final: " + cbOperadorString);
+                System.out.println("Caso 2");
+            }else {
+                cbOperador = ComboBoxOperadorString.getSelectedItem().toString();
+                System.out.println("Operador Final: " + cbOperadorString);
+                System.out.println("Caso 2");
+            }
+            
         }else if(!"Selecciona".equals(ComboBoxOperador.getSelectedItem().toString()) && !"Selecciona".equals(ComboBoxOperadorString.getSelectedItem().toString())){
             System.out.println("Caso 3");
             JOptionPane.showMessageDialog(null, "No puedes usar los dos operadores a la vez", "Mensaje", JOptionPane.ERROR_MESSAGE);
